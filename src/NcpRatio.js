@@ -18,7 +18,6 @@ async function NcpRatio () {
     // console.log(ncpStaking)
     
     return ncpStaking;
-    
 }
 async function showRatio (){
     const stakingNCP =await NcpRatio();
