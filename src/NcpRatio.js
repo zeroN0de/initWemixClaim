@@ -3,13 +3,32 @@
 // import dotenv from 'dotenv';
 
 const { LedgerSigner } = require('@ethersproject/hardware-wallets');
+const TransportNodeHid = require('@ledgerhq/hw-transport-node-hid')
 const ethers = require('ethers');
 require('dotenv').config();
 
+// async function checkLedgerConnection() {
+//     try{
+//         const transport = await TransportNodeHid.create()
+//         console.log("ledger is Connected'")
+//         transport.close();
+//     }
+//     catch(err){
+//         console.log("not Connected")
+//     }
+// }
+// checkLedgerConnection().then(transport => console.log("연결"));
+
 async function NcpRatio () {
-    const provider = new ethers.providers.JsonRpcProvider('https://api.test.wemix.com')
-    // console.log(provider)
-    const wallet = (new ethers.Wallet(process.env.PRIVATE_KEY)).connect(provider);
+    const provider = new ethers.providers.JsonRpcProvider('https://api.wemix.com')
+
+
+    //chain Id Check 
+    // const getChainId = (await provider.getNetwork()).chainId
+    // console.log(getChainId)
+    
+    // const wallet = (new ethers.Wallet(process.env.PRIVATE_KEY)).connect(provider);
+
     // console.log(process.env.PRIVATE_KEY)
     // console.log(wallet)
     const abi = require('./NCPStaking.json');
@@ -17,22 +36,27 @@ async function NcpRatio () {
     console.log(ledgerSigner)
 
     // console.log(abi.abi)
-    const ncpStaking = new ethers.Contract('0x64d2ccd2C4c7aC869b9f776CbC7b4d6c6fdc6022', abi.abi, ledgerSigner);
+    const ncpStaking = new ethers.Contract('0x088AcFcd91aEEB39fF9aDbC0f5b5c36749D89fea', abi.abi, ledgerSigner);
     // console.log('ncpStaking : ',ncpStaking)
     return ncpStaking;
 }
-NcpRatio();
+// NcpRatio();
 
 
 // 요청 먼저 하고,
 async function RequestRatio(){
     const stakingNCP = await NcpRatio();
-    const RatioRequest = await stakingNCP.setRewardFeeRatioRequest(NCPID, _feeRatio, {
+    const NCPID = 15;
+    const feeRatio = 500;
+    const RatioRequest = await stakingNCP.setRewardFeeRatioRequest(NCPID, feeRatio, {
         gasPrice : ethers.utils.parseUnits('101','gwei'),
         gasLimit : "100000",
     })
     return RatioRequest;
 }
+RequestRatio().catch((err) => {
+    console.log(err)
+});
 
 // 7일 뒤에 확정 짓고.
 async function showRatio (){
@@ -40,6 +64,7 @@ async function showRatio (){
     const showFee = await stakingNCP.setRewardFeeRatio(1, {
         gasPrice : ethers.utils.parseUnits('101','gwei'),
         gasLimit : "100000",
+        chainId: '1111',
     })    
     return showFee
 
