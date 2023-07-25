@@ -32,14 +32,14 @@ async function NcpRatio() {
   // console.log(wallet)
   const abi = require("./NCPStaking.json");
   const ledgerSigner = new LedgerSigner(provider);
-  //   console.log(ledgerSigner);
+    console.log(provider.formatter);
 
   // console.log(abi.abi)
   const ncpStaking = new ethers.Contract("0x088AcFcd91aEEB39fF9aDbC0f5b5c36749D89fea", abi.abi, ledgerSigner);
   // console.log('ncpStaking : ',ncpStaking)
   return ncpStaking;
 }
-// NcpRatio();
+NcpRatio();
 
 // 요청 먼저 하고,
 async function RequestRatio() {
@@ -51,9 +51,9 @@ async function RequestRatio() {
   const transactionReceipt = await RatioRequest.wait();
   console.log(transactionReceipt);
 }
-RequestRatio().catch((err) => {
-  console.log(err);
-});
+// RequestRatio().catch((err) => {
+//   console.log(err);
+// });
 
 // 7일 뒤에 확정 짓고.
 async function showRatio() {
