@@ -5,7 +5,7 @@ async function getNCPStaking() {
   const abi = require("./NCPStaking.json");
 //   const wallet = new ethers.Wallet("Pravate Key").connect(provider);
   const signer = new LedgerSigner(provider);
-//   const ncpStaking = await ethers.Contract("컨트랙트 주소넣기 꼭넣기.", abi.abi, signer);
+//   const ncpStaking = await ethers.Contract("컨트랙트 주소넣기 꼭넣기.0x6A컨트랙트 주소 넣기", abi.abi, signer);
 //  컨트랙주소 꼭넣기 두번넣기
   return ncpStaking;
 }
