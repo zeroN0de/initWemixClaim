@@ -44,15 +44,20 @@ function Withdraw() {
   }, [signer]);
   const executeContractFunction = async () => {
     if (contract) {
-      const tx = await contract.deposit({
-        value: "1000000000000",
-        gasPrice: ethers.utils.parseUnits("101", "gwei"),
-      });
-      console.log(tx);
+      try {
+        const tx = await contract.deposit({
+          value: "1000000000000",
+          gasPrice: ethers.utils.parseUnits("101", "gwei"),
+        });
+        console.log(tx);
+      } catch (err) {
+        console.error("Tx has been rejected", err);
+      }
     } else {
       console.log("Contract is not connected");
     }
   };
+
   return (
     <div>
       <TestDiv onClick={executeContractFunction}>Testnet Withdraw</TestDiv>

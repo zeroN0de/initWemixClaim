@@ -5,7 +5,14 @@ import { styled } from "styled-components";
 
 const TestDiv = styled.button`
   font-size: 50px;
-  margin: 10px 0;
+  margin: 10px 10px;
+`;
+const ApplyDiv = styled.div`
+  font-size: 50px;
+  margin: 10px 10px;
+  button {
+    font-size: 50px;
+  }
 `;
 
 function Ratio() {
@@ -17,16 +24,25 @@ function Ratio() {
     const init = async () => {
       if (window.ethereum) {
         // Request account access
-        await window.ethereum.enable();
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        setProvider(provider);
-        setSigner(signer);
+        try {
+          await window.ethereum.enable();
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          setProvider(provider);
+          setSigner(signer);
+        } catch (err) {
+          alert("please Login metemask");
+        }
       } else {
-        console.log("Please install MetaMask!");
+        alert("plase install metamask!");
       }
+
+      // else {
+      //   window.alert("Please install MetaMask!");
+      //   window.open("https://metamask.io/");
+      // }
     };
-    init();
+    // init();
   }, []);
   useEffect(() => {
     if (signer) {
@@ -50,9 +66,27 @@ function Ratio() {
       console.log("Contract is not connected");
     }
   };
+
+  const executeConfirm = async () => {
+    if (contract) {
+      try {
+        const tx = await contract.setRewardFeeRatio(15, {
+          gasPrice: ethers.utils.parseUnits("101", "gwei"),
+        });
+        console.log(tx);
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      console.log("Contract is not connected");
+    }
+  };
   return (
     <div>
-      <TestDiv onClick={executeContractFunction}>change ratio</TestDiv>
+      <TestDiv onClick={executeContractFunction}>분배율 변경 요청</TestDiv>
+      <ApplyDiv>
+        <button onClick={executeConfirm}>분배율 변경 확정</button>
+      </ApplyDiv>
     </div>
   );
 }
