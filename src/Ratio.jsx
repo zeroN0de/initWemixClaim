@@ -3,15 +3,19 @@ import { useState, useEffect } from "react";
 import abi from "./NCPStaking.json";
 import { styled } from "styled-components";
 
+const NaviDiv = styled.div`
+  display: flex;
+  margin: 20px;
+`;
 const TestDiv = styled.button`
-  font-size: 50px;
+  font-size: 30px;
   margin: 10px 10px;
 `;
 const ApplyDiv = styled.div`
-  font-size: 50px;
+  font-size: 30px;
   margin: 10px 10px;
   button {
-    font-size: 50px;
+    font-size: 30px;
   }
 `;
 
@@ -81,12 +85,30 @@ function Ratio() {
       console.log("Contract is not connected");
     }
   };
+  // const reqInfo = async () => {
+  //   if (contract) {
+  //     try {
+  //       const ratioInfo = await contract.FeeRatioRequestInfo();
+  //       console.log(ratioInfo);
+  //     } catch (err) {
+  //       console.log("err", err);
+  //     }
+  //   } else {
+  //     console.log("contract is not connected");
+  //   }
+  // };
+
   return (
     <div>
-      <TestDiv onClick={executeContractFunction}>분배율 변경 요청</TestDiv>
-      <ApplyDiv>
-        <button onClick={executeConfirm}>분배율 변경 확정</button>
-      </ApplyDiv>
+      <NaviDiv>
+        <TestDiv onClick={executeContractFunction}>Ratio 변경요청</TestDiv>
+        <ApplyDiv>
+          <button onClick={executeConfirm}>Ratio 확정</button>
+        </ApplyDiv>
+        {/* <ApplyDiv>
+        <button onClick={reqInfo}>분배율 변경 확정</button>
+      </ApplyDiv> */}
+      </NaviDiv>
     </div>
   );
 }
