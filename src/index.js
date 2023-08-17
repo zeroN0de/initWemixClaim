@@ -4,13 +4,15 @@ import "./index.css";
 
 import Claims from "./Claims";
 import Ratio from "./Ratio";
+import ChangingRatio from "./ChangingRatio";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <>
       <Ratio />
-      <Claims />
+      {/* <Claims /> */}
+      {/* <ChangingRatio /> */}
     </>
   </React.StrictMode>
 );
